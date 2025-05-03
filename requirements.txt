@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+gunicorn
+redis
+openai
+python-dotenv
+gtts
+openai-whisper
