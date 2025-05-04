@@ -2,7 +2,6 @@ from openai import AsyncOpenAI
 import os
 import requests
 from app.utils.prompt_templates import get_keywords_prompt, get_image_prompt
-import uuid
 
 openai = AsyncOpenAI()
 # You should already set your OpenAI API key via env
