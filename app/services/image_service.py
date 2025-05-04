@@ -4,6 +4,7 @@ import requests
 from app.utils.prompt_templates import get_keywords_prompt, get_image_prompt
 
 openai = AsyncOpenAI()
+
 # You should already set your OpenAI API key via env
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -12,7 +13,6 @@ os.makedirs(IMG_DIR, exist_ok=True)
 
 async def generate_image(request, response):
 
-    #filename = f"{request.user_id}_{uuid.uuid4().hex}.png"
     filename = f"{request.user_id}_response.png"
     keywords = get_keywords_prompt(request.scenario, request.role, request.place, request.language, response)
 
