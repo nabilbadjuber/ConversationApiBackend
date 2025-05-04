@@ -10,6 +10,10 @@ openai = AsyncOpenAI()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = openai_api_key
 
+# Define audio output directory inside app
+AUDIO_DIR = os.path.join(os.path.dirname(__file__), "..", "static", "audio")
+os.makedirs(AUDIO_DIR, exist_ok=True)
+
 async def handle_chat(request):
     redis = get_redis_client()
     session_key = f"chat:{request.user_id}"
@@ -24,7 +28,6 @@ async def handle_chat(request):
     previous_messages = await redis.get(session_key) or ""
     context = get_context_prompt(request.scenario, request.role, request.place, request.language)
     prompt = get_conversation_prompt(request.scenario, previous_messages, request.message, request.language)
-
     completion = await openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -56,3 +59,27 @@ async def handle_hint(user_id, scenario, language):
     response = completion.choices[0].message.content
 
     return response
+
+async def audioToText(filename: str, lang: str):
+    file_path = os.path.join(AUDIO_DIR, filename)
+    input_audio = open(file_path, "rb")
+    text = await openai.audio.transcriptions.create(
+      model="whisper-1",
+      file=input_audio,
+      language=lang
+    )
+
+    return text.text
+
+async def textToAudio(input_text: str, filename: str):
+    speech_file_path = os.path.join(AUDIO_DIR, filename)
+    response = await openai.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=input_text
+    )
+
+    with open(speech_file_path, "wb") as f:
+        f.write(await response.aread())
+
+    return True

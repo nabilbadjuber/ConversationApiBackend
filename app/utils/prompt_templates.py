@@ -47,7 +47,7 @@ I would like you to create a best prompt message to generate image based on your
 As for context, we are currently doing a role-based scenario. The scenario is {scenario}.
 You are playing as a {role} in a {place}.The language used in this role-play is {lang}.
 Your last dialogue response was {response}. 
-These are the keywords to generate the image: {keywords}. The image should focus on the object we currently speak. 
-Image style would be 16-bit 2D pixel illustration. Please generate result text only. Dont put any additional sentences or symbols. 
+These are the keywords to generate the image: {keywords}.
+Image style would be photograph, long shot, and focus on the object we currently speak to or speak about. Please generate result text only. Dont put any additional sentences or symbols. 
 Prompt words should be less than 50 words.
 """
