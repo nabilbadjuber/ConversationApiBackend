@@ -9,6 +9,10 @@ load_dotenv()  # Loads variables from .env into the environment
 # Get the DATABASE_URL environment variable
 DATABASE_URL = os.getenv('DATABASE_URL')
 
+# Heroku gives 'postgres://' but SQLAlchemy needs 'postgresql://'
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 # Create the SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
 
