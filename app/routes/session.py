@@ -11,3 +11,8 @@ async def reset_session(user_id: str = Form(...)):
     r.delete(f"audio:{user_id}")
     r.delete(f"image:{user_id}")
     return {"message": "Session reset successful."}
+
+@router.post("/resetscenario")
+async def reset_session(user_id: str = Form(...)):
+    r.delete(f"session:{user_id}")
+    return {"message": "Session scenarios reset successful."}

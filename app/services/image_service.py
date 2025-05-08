@@ -26,19 +26,20 @@ async def generate_image(request, response):
 
     prompt = get_image_prompt(request.scenario, request.role, request.place, request.language, response, keywords_response)
 
-    prompt_gen = await openai.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": prompt}
-        ]
-    )
-    prompt_response = prompt_gen.choices[0].message.content
+
+    # prompt_gen = await openai.chat.completions.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {"role": "user", "content": prompt}
+    #     ]
+    # )
+    # prompt_response = prompt_gen.choices[0].message.content
 
     #response = openai.images.create_variation()
 
     response = await openai.images.generate(
         model="dall-e-3",
-        prompt=prompt_response,
+        prompt=prompt,
         size="1024x1024",
         quality="standard",
         n=1
