@@ -1,7 +1,10 @@
 import redis.asyncio as redis
 import os
+from dotenv import load_dotenv
 
 _redis = None
+
+load_dotenv()
 
 def get_redis_client():
     global _redis

@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Form
-import redis
+from app.utils.redis_client import get_redis_client
 
 router = APIRouter()
-r = redis.Redis()
 
 @router.post("/reset")
 async def reset_session(user_id: str = Form(...)):
+    r = get_redis_client()
     await r.delete(f"session:{user_id}")
     await r.delete(f"chat:{user_id}")
     await r.delete(f"audio:{user_id}")
@@ -14,6 +14,7 @@ async def reset_session(user_id: str = Form(...)):
 
 @router.post("/resetscenario")
 async def reset_session(user_id: str = Form(...)):
+    r = get_redis_client()
     await r.delete(f"chat:{user_id}")
     await r.delete(f"audio:{user_id}")
     await r.delete(f"image:{user_id}")
